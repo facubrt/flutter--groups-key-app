@@ -70,6 +70,7 @@ class ConfigPage extends ConsumerWidget {
                 },
               ),
               const VoiceButtonWidget(),
+              const SizedBox(height: 60,),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 child: Column(

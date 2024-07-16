@@ -21,18 +21,13 @@ class VoiceButtonWidget extends ConsumerWidget {
           borderRadius: BorderRadius.circular(16),
           child: Container(
             alignment: Alignment.center,
-            width: orientation == Orientation.portrait
-                ? size.width * 0.6
-                : size.height * 0.6,
-            height: orientation == Orientation.portrait
-                ? size.width * 0.2
-                : size.height * 0.2,
+            padding: const EdgeInsets.all(20),
             child: Text(
               TEST_VOICE_BUTTON,
               style: TextStyle(
                 fontSize: orientation == Orientation.portrait
-                    ? size.width * 0.68 * appParameters.factorSize
-                    : size.height * 0.68 * appParameters.factorSize,
+                      ? size.width * appParameters.factorSize
+                      : size.height * appParameters.factorSize,
                 fontWeight: FontWeight.bold,
                 color: appParameters.highContrast ? Colors.black : Colors.white,
               ),

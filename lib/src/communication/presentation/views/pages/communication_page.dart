@@ -16,8 +16,7 @@ class CommunicationPage extends ConsumerWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: appParameters.highContrast ? Colors.black : Colors.white,
-      appBar: MediaQuery.of(context).orientation == Orientation.portrait
-          ? AppBar(
+      appBar: AppBar(
               title: const Text(
                 'Groups KEY',
                 style:
@@ -42,13 +41,8 @@ class CommunicationPage extends ConsumerWidget {
                   },
                 ),
               ],
-            )
-          : const PreferredSize(
-              preferredSize: Size.zero,
-              child: SafeArea(
-                child: SizedBox.shrink(),
-              ),
             ),
+          
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(

@@ -40,3 +40,8 @@ const String FACTOR_TEXT_BIG = 'Texto grande';
 const String DESIGN_TITLE = 'Diseño de pantalla';
 const String DEFAULT_DESIGN_OPTION = 'Predeterminado';
 const String HIGH_CONTRAST_OPTION = 'Alto contraste';
+
+// communications
+const String COMMUNICATE_BUTTON = 'DECIR';
+const String FIELD_TEXT_HINT = 'Escribe algo...';
+const String SPACE_TEXT = ' ';

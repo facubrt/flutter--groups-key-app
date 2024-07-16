@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:groupskey/core/constants/constants.dart';
+import 'package:groupskey/core/utils/utils.dart';
+import 'package:groupskey/src/communication/presentation/providers/voice_controller.dart';
+import 'package:groupskey/src/customisation/presentation/providers/customisation_controller.dart';
 
 class CustomButton extends ConsumerWidget {
   final String letter;
@@ -8,32 +12,31 @@ class CustomButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final appConfig = ref.watch(configProvider);
-    // final prefs = UserPreferences();
+    final appParameters = ref.watch(customisationControllerProvider);
     return Material(
       borderRadius: BorderRadius.circular(16),
-      color: Colors.black12,
-      // prefs.highlightFont
-      //     ? isAConsonantOrVowel(key: letter) == 'consonant'
-      //         ? prefs.highContrast
-      //             ? Colors.yellow
-      //             : Colors.orange
-      //         : isAConsonantOrVowel(key: letter) == 'vowel'
-      //             ? prefs.highContrast
-      //                 ? Colors.purple
-      //                 : const Color(0xFF003A70)
-      //             : prefs.highContrast
-      //                 ? Colors.white
-      //                 : Colors.black12
-      //     : prefs.highContrast
-      //         ? isAConsonantOrVowel(key: letter) == 'other'
-      //             ? Colors.white
-      //             : Colors.yellow
-      //         : Colors.black12,
+      color: 
+      appParameters.keyboardStyle == HIGHLIGHT_KEYBOARD_STYLE
+          ? isAConsonantOrVowel(key: letter) == 'consonant'
+              ? appParameters.highContrast
+                  ? Colors.yellow
+                  : Colors.orange
+              : isAConsonantOrVowel(key: letter) == 'vowel'
+                  ? appParameters.highContrast
+                      ? Colors.purple
+                      : const Color(0xFF003A70)
+                  : appParameters.highContrast
+                      ? Colors.white
+                      : Colors.black12
+          : appParameters.highContrast
+              ? isAConsonantOrVowel(key: letter) == 'other'
+                  ? Colors.white
+                  : Colors.yellow
+              : Colors.black12,
       child: InkWell(
         onTap: () {
           HapticFeedback.lightImpact();
-          //ref.read(configProvider.notifier).setText(letter);
+          ref.read(voiceControllerProvider.notifier).setText(text: letter);
         },
         borderRadius: BorderRadius.circular(16),
         child: Container(
@@ -45,21 +48,21 @@ class CustomButton extends ConsumerWidget {
           child: Text(
             letter.toUpperCase(),
             style: TextStyle(
-              fontSize: 18,
-              // MediaQuery.of(context).orientation ==
-              //         Orientation.portrait
-              //     ? MediaQuery.of(context).size.width * appConfig.factorSize
-              //     : MediaQuery.of(context).size.height * appConfig.factorSize,
+              fontSize: 
+              MediaQuery.of(context).orientation ==
+                      Orientation.portrait
+                  ? MediaQuery.of(context).size.width * appParameters.factorSize
+                  : MediaQuery.of(context).size.height * appParameters.factorSize,
               fontWeight: FontWeight.bold,
-              color: const Color(0xFF003A70),
-              // prefs.highlightFont &&
-              //         isAConsonantOrVowel(key: letter) != 'other'
-              //     ? prefs.highContrast
-              //         ? Colors.black
-              //         : Colors.white
-              //     : prefs.highContrast
-              //         ? Colors.black
-              //         : const Color(0xFF003A70),
+              color: 
+              appParameters.keyboardStyle == HIGHLIGHT_KEYBOARD_STYLE &&
+                      isAConsonantOrVowel(key: letter) != 'other'
+                  ? appParameters.highContrast
+                      ? Colors.black
+                      : Colors.white
+                  : appParameters.highContrast
+                      ? Colors.black
+                      : const Color(0xFF003A70),
             ),
           ),
         ),

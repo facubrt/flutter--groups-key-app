@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:groupskey/core/constants/constants.dart';
+import 'package:groupskey/src/communication/presentation/providers/voice_controller.dart';
+import 'package:groupskey/src/customisation/presentation/providers/customisation_controller.dart';
 
 class ButtonsActionWidget extends ConsumerWidget {
   const ButtonsActionWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final prefs = UserPreferences();
-    // final appConfig = ref.watch(configProvider);
+    final appParameters = ref.watch(customisationControllerProvider);
+    final voiceParameters = ref.watch(voiceControllerProvider);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         Material(
           borderRadius: BorderRadius.circular(16),
-          color: Colors.blue, //prefs.highContrast ? Colors.white : Colors.blue,
+          color: appParameters.highContrast ? Colors.white : Colors.blue,
           child: InkWell(
             onTap: () {
-              // HapticFeedback.lightImpact();
-              // ref.read(appTTSProvider.notifier).speak(appConfig.ttsText!);
+              HapticFeedback.lightImpact();
+              ref.read(voiceControllerProvider.notifier).speak(text: voiceParameters.text);
             },
             borderRadius: BorderRadius.circular(16),
             child: Container(
@@ -30,19 +33,19 @@ class ButtonsActionWidget extends ConsumerWidget {
                   : MediaQuery.of(context).size.height * 0.10,
               alignment: Alignment.center,
               child: Text(
-                'Decir'.toUpperCase(),
+                COMMUNICATE_BUTTON,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 0.68,
-                      // MediaQuery.of(context).orientation == Orientation.portrait
-                      //     ? MediaQuery.of(context).size.width *
-                      //         0.68 *
-                      //         appConfig.factorSize
-                      //     : MediaQuery.of(context).size.height *
-                      //         0.68 *
-                      //         appConfig.factorSize,
+                  fontSize: 
+                      MediaQuery.of(context).orientation == Orientation.portrait
+                          ? MediaQuery.of(context).size.width *
+                              0.68 *
+                              appParameters.factorSize
+                          : MediaQuery.of(context).size.height *
+                              0.68 *
+                              appParameters.factorSize,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,//prefs.highContrast ? Colors.black : Colors.white,
+                  color: appParameters.highContrast ? Colors.black : Colors.white,
                 ),
               ),
             ),
@@ -55,11 +58,11 @@ class ButtonsActionWidget extends ConsumerWidget {
         ),
         Material(
           borderRadius: BorderRadius.circular(16),
-          color: Colors.redAccent, //prefs.highContrast ? Colors.purple : Colors.redAccent,
+          color: appParameters.highContrast ? Colors.purple : Colors.redAccent,
           child: InkWell(
             onTap: () {
               HapticFeedback.lightImpact();
-              //ref.read(configProvider.notifier).deleteLast();
+              ref.read(voiceControllerProvider.notifier).deleteLast();
             },
             borderRadius: BorderRadius.circular(16),
             child: Container(
@@ -89,7 +92,7 @@ class ButtonsActionWidget extends ConsumerWidget {
           child: InkWell(
             onTap: () {
               HapticFeedback.lightImpact();
-              //ref.read(configProvider.notifier).deleteAllText();
+              ref.read(voiceControllerProvider.notifier).deleteAllText();
             },
             borderRadius: BorderRadius.circular(16),
             child: Container(
@@ -98,7 +101,7 @@ class ButtonsActionWidget extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                       width: 4,
-                      color: Colors.redAccent, //prefs.highContrast ? Colors.white: Colors.redAccent
+                      color: appParameters.highContrast ? Colors.white: Colors.redAccent
                       ),),
               height: MediaQuery.of(context).orientation == Orientation.portrait
                   ? MediaQuery.of(context).size.width * 0.1
@@ -108,7 +111,7 @@ class ButtonsActionWidget extends ConsumerWidget {
                 children: [
                   Icon(
                     Icons.delete,
-                    color: Colors.redAccent, //prefs.highContrast ? Colors.white : Colors.redAccent,
+                    color: appParameters.highContrast ? Colors.white : Colors.redAccent,
                     size: MediaQuery.of(context).orientation ==
                             Orientation.portrait
                         ? MediaQuery.of(context).size.width * 0.06

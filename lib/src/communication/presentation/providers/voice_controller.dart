@@ -71,10 +71,39 @@ class VoiceController extends _$VoiceController {
       volume: state.volume,
       rate: state.rate,
       pitch: state.pitch,
-      text: text,
+      text: state.text + text,
     );
 
     state = parameters;
     return voiceService.setVoiceParameters(parameters);
+  }
+
+  Future<bool> deleteAllText() {
+    final VoiceParameters parameters = VoiceParameters(
+      volume: state.volume,
+      rate: state.rate,
+      pitch: state.pitch,
+      text: '',
+    );
+
+    state = parameters;
+    return voiceService.setVoiceParameters(parameters);
+  }
+
+  Future<bool> deleteLast() {
+    String? newText;
+    if (state.text.isNotEmpty) {
+      newText = state.text.substring(0, state.text.length - 1);
+      final VoiceParameters parameters = VoiceParameters(
+      volume: state.volume,
+      rate: state.rate,
+      pitch: state.pitch,
+      text: newText,
+    );
+
+    state = parameters;
+    return voiceService.setVoiceParameters(parameters);
+    }
+    return Future.value(false);
   }
 }

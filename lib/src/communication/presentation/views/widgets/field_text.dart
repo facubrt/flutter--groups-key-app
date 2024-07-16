@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:groupskey/core/constants/constants.dart';
+import 'package:groupskey/src/communication/presentation/providers/voice_controller.dart';
+import 'package:groupskey/src/customisation/presentation/providers/customisation_controller.dart';
 
 class FieldTextWidget extends ConsumerWidget {
   const FieldTextWidget({super.key});
@@ -7,12 +10,12 @@ class FieldTextWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     TextEditingController textController = TextEditingController();
-    //final appConfig = ref.watch(configProvider);
-    textController.text = '';//appConfig.ttsText ?? '';
+    final appParameters = ref.watch(customisationControllerProvider);
+    final voiceParameters = ref.watch(voiceControllerProvider);
+    textController.text = voiceParameters.text;
     textController.selection = TextSelection(
         baseOffset: textController.text.length,
         extentOffset: textController.text.length);
-    //final prefs = UserPreferences();
 
     return TextField(
       onTap: () {},
@@ -20,14 +23,13 @@ class FieldTextWidget extends ConsumerWidget {
       showCursor: true,
       controller: textController,
       style: TextStyle(
-        fontSize: 16,
-        // MediaQuery.of(context).orientation == Orientation.portrait
-        //     ? MediaQuery.of(context).size.width * 1 * appConfig.factorSize
-        //     : MediaQuery.of(context).size.height *
-        //         1 *
-        //         appConfig.factorSize,
+        fontSize: MediaQuery.of(context).orientation == Orientation.portrait
+            ? MediaQuery.of(context).size.width * 1 * appParameters.factorSize
+            : MediaQuery.of(context).size.height *
+                1 *
+                appParameters.factorSize,
         fontWeight: FontWeight.bold,
-        color: Colors.black, //prefs.highContrast ? Colors.white : Colors.black,
+        color: appParameters.highContrast ? Colors.white : Colors.black,
       ),
       onChanged: (newText) {
         textController.selection = TextSelection(
@@ -38,24 +40,24 @@ class FieldTextWidget extends ConsumerWidget {
           border: OutlineInputBorder(
             borderRadius: const BorderRadius.all(Radius.circular(16.0)),
             borderSide: BorderSide(
-                color: Colors.black, //prefs.highContrast ? Colors.white : Colors.black,
+                color: appParameters.highContrast ? Colors.white : Colors.black,
                 width: 2),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: const BorderRadius.all(Radius.circular(16.0)),
             borderSide: BorderSide(
-                color: Colors.black, //prefs.highContrast ? Colors.white : Colors.black,
+                color: appParameters.highContrast ? Colors.white : Colors.black,
                 width: 2),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: const BorderRadius.all(Radius.circular(16.0)),
             borderSide: BorderSide(
-                color: Colors.black, // prefs.highContrast ? Colors.white : Colors.black,
+                color: appParameters.highContrast ? Colors.white : Colors.black,
                 width: 2),
           ),
-          hintText: 'Escribe algo...',
+          hintText: FIELD_TEXT_HINT,
           hintStyle: TextStyle(
-            color: Colors.black, //prefs.highContrast ? Colors.white : Colors.black,
+            color: appParameters.highContrast ? Colors.white : Colors.black,
           )),
     );
   }

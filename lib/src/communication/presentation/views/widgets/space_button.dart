@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:groupskey/core/constants/constants.dart';
+import 'package:groupskey/src/communication/presentation/providers/voice_controller.dart';
+import 'package:groupskey/src/customisation/presentation/providers/customisation_controller.dart';
 
 class SpaceButton extends ConsumerWidget {
   const SpaceButton({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //final appConfig = ref.watch(configProvider);
+    final appParameters = ref.watch(customisationControllerProvider);
     return Material(
       borderRadius: BorderRadius.circular(16),
-      color: Colors.black12,//appConfig.highContrast ? Colors.white : Colors.black12,
+      color: appParameters.highContrast ? Colors.white : Colors.black12,
       child: InkWell(
         onTap: () {
           HapticFeedback.lightImpact();
-          //ref.read(configProvider.notifier).setText(' ');
+          ref.read(voiceControllerProvider.notifier).setText(text: SPACE_TEXT);
         },
         borderRadius: BorderRadius.circular(16),
         child: Container(
@@ -25,16 +28,15 @@ class SpaceButton extends ConsumerWidget {
           width: MediaQuery.of(context).size.width * 0.5,
           alignment: Alignment.center,
           child: Text(
-            ' '.toUpperCase(),
+            SPACE_TEXT,
             style: TextStyle(
-              fontSize: 16,
-                  // MediaQuery.of(context).orientation == Orientation.portrait
-                  //     ? MediaQuery.of(context).size.width *
-                  //         0.68 *
-                  //         appConfig.factorSize
-                  //     : MediaQuery.of(context).size.height *
-                  //         0.68 *
-                  //         appConfig.factorSize,
+              fontSize: MediaQuery.of(context).orientation == Orientation.portrait
+                      ? MediaQuery.of(context).size.width *
+                          0.68 *
+                          appParameters.factorSize
+                      : MediaQuery.of(context).size.height *
+                          0.68 *
+                          appParameters.factorSize,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),

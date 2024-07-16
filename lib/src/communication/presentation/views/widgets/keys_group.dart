@@ -55,27 +55,7 @@ class KeysGroup extends StatelessWidget {
             ),
           ],
         ),
-        MediaQuery.of(context).orientation == Orientation.portrait 
-        ? Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Button3Group(
-              keyA: 'X',
-              keyB: 'Y',
-              keyC: 'Z',
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).orientation == Orientation.portrait
-                  ? MediaQuery.of(context).size.width * 0.02
-                  : MediaQuery.of(context).size.height * 0.05,
-            ),
-            const Button3Group(
-              keyA: ',',
-              keyB: '.',
-              keyC: '?',
-            ),
-          ],
-        ) : Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Button3Group(
